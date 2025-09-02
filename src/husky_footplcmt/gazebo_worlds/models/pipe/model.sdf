@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="pipe">
+    <static>false</static>
+    <link name="pipe_link">
+      <collision name="pipe_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>3.0</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="pipe_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>3.0</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.3 0.3 0.3 1</ambient>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

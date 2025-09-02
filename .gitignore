@@ -1,0 +1,29 @@
+# ROS2 build directories
+build/
+install/
+log/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled files
+*.o
+*.so
+*.a
+
+# Bag files (if you don't want to track them)
+*.bag
+*.db3

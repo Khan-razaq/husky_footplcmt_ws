@@ -1,0 +1,14 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    camera_joint_position_controller:
+      type: position_controllers/JointPositionController
+
+camera_joint_position_controller:
+  ros__parameters:
+    joint: pole_to_block
+    interface_name: position

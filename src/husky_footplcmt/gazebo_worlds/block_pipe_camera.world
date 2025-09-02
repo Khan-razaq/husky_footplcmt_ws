@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="pipe_world">
+  
+    <!-- Ground and Sun -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Left Block with Camera -->
+    <include>
+      <uri>model://block_with_camera</uri>
+      <pose>-1.5 0 0.25 0 0 0</pose>
+    </include>
+
+    <!-- Right Block -->
+    <include>
+      <uri>model://block</uri>
+      <pose>1.5 0 0.25 0 0 0</pose>
+    </include>
+
+    <!-- Pipe -->
+    <include>
+      <uri>model://pipe</uri>
+      <pose>0 0 0.6 0 1.5708 0</pose> <!-- Rotate to lay horizontally -->
+    </include>
+
+  </world>
+</sdf>

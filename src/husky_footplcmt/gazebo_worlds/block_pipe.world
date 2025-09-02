@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="pipe_world">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+  <uri>model://block</uri>
+  <name>block_left</name>
+  <pose>-1.5 0 0.25 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://block</uri>
+  <name>block_right</name>
+  <pose>1.5 0 0.25 0 0 0</pose>
+</include>
+
+    <!-- Pipe -->
+    <include>
+      <uri>model://pipe</uri>
+      <name>balancing_pipe</name>
+      <pose>0 0 0.6 0 1.5708 0</pose> <!-- Rotate to lay horizontally on Y axis -->
+    </include>
+  </world>
+</sdf>

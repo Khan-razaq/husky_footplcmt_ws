@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>husky_footplcmt</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="khan.razaqma@gmail.com">rak</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- Core ROS 2 dependencies -->
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  
+  <!-- Robot description and state -->
+  <depend>robot_state_publisher</depend>
+  <depend>xacro</depend>
+  
+  <!-- Gazebo Classic integration -->
+  <depend>gazebo_ros</depend>
+  <depend>gazebo_ros_pkgs</depend>
+  <!-- ROS 2 Control with Gazebo Classic -->
+  <depend>gazebo_ros2_control</depend>
+  
+  <!-- ROS 2 Control with Gazebo -->
+  <depend>ros2_control</depend>
+  <depend>controller_manager</depend>
+  
+  <!-- Controllers -->
+  <depend>joint_state_broadcaster</depend>
+  <depend>joint_trajectory_controller</depend>
+  <depend>diff_drive_controller</depend>  <!-- If using differential drive -->
+  
+  <!-- Build tools -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  
+  <!-- Testing -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  
+  <export>
+    <build_type>ament_cmake</build_type>
+    <gazebo_ros gazebo_model_path="${prefix}/.."/>
+  </export>
+</package>

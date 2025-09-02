@@ -1,0 +1,181 @@
+<?xml version="1.0" ?>
+<robot name="pipe_on_blocks">
+
+  <!-- First block -->
+  <link name="block1">
+    <visual>
+      <geometry>
+        <box size="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="1" iyy="1" izz="1" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Second block -->
+  <link name="block2">
+    <visual>
+      <geometry>
+        <box size="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="1" iyy="1" izz="1" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Horizontal pipe -->
+  <link name="pipe">
+    <visual>
+      <geometry>
+        <cylinder length="10" radius="0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="10" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5"/>
+      <inertia ixx="0.5" iyy="0.5" izz="0.5" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Vertical pipe -->
+  <link name="vertical_pipe">
+    <visual>
+      <geometry>
+        <cylinder length="3" radius="0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="3" radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="0.2" iyy="0.2" izz="0.02" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Camera link -->
+  <link name="camera_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.15 0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.15 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Fixed joints -->
+  <joint name="block2_joint" type="fixed">
+    <parent link="block1"/>
+    <child link="block2"/>
+    <origin xyz="10 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="pipe_joint" type="fixed">
+    <parent link="block1"/>
+    <child link="pipe"/>
+    <origin xyz="5 0 0.6" rpy="0 1.5708 0"/>
+  </joint>
+
+  <joint name="vertical_pipe_joint" type="fixed">
+    <parent link="block1"/>
+    <child link="vertical_pipe"/>
+    <origin xyz="0 0 1" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="camera_mount_joint" type="fixed">
+    <parent link="vertical_pipe"/>
+    <child link="camera_link"/>
+    <origin xyz="0 0 1.5" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Gazebo colors -->
+  <gazebo reference="block1"><material>Gazebo/Red</material></gazebo>
+  <gazebo reference="block2"><material>Gazebo/Red</material></gazebo>
+  <gazebo reference="pipe"><material>Gazebo/Green</material></gazebo>
+  <gazebo reference="vertical_pipe"><material>Gazebo/Blue</material></gazebo>
+
+  <!-- Depth camera sensor -->
+  <gazebo reference="camera_link">
+    <sensor type="depth" name="depth_camera_sensor">
+      <update_rate>30</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>5.0</far>
+        </clip>
+      </camera>
+      <plugin name="camera" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>/camera/depth</namespace>
+        </ros>
+        <camera_name>depth_camera</camera_name>
+        <frame_name>camera_link</frame_name>
+        <update_rate>30.0</update_rate>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- RGB camera sensor -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="rgb_camera_sensor">
+      <update_rate>30</update_rate>
+      <pose>0 0 0 0 0 0</pose>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10.0</far>
+        </clip>
+      </camera>
+      <plugin name="rgb_camera_controller" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>/camera/color</namespace>
+        </ros>
+        <camera_name>rgb_camera</camera_name>
+        <frame_name>camera_link</frame_name>
+        <update_rate>30.0</update_rate>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

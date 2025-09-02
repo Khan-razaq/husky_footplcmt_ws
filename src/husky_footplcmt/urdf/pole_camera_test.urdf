@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<robot name="pole_box_robot">
+  <link name="world"/>
+  
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.3" length="0.1"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.3" length="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="20.0"/>
+      <inertia ixx="0.45" ixy="0" ixz="0" iyy="0.45" iyz="0" izz="0.9"/>
+    </inertial>
+  </link>
+  
+  <link name="pole_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.03" length="1.0"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.03" length="1.0"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.0167" ixy="0" ixz="0" iyy="0.0167" iyz="0" izz="0.00018"/>
+    </inertial>
+  </link>
+  
+  <link name="box_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.4 0.1"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.4 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00133" ixy="0" ixz="0" iyy="0.00033" iyz="0" izz="0.00133"/>
+    </inertial>
+  </link>
+  
+  <link name="camera_visual">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+  </link>
+  
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+  </joint>
+  
+  <joint name="base_to_pole" type="continuous">
+    <parent link="base_link"/>
+    <child link="pole_link"/>
+    <origin xyz="0 0 0.55" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="100" velocity="1.0"/>
+    <dynamics damping="1.0" friction="0.1"/>
+  </joint>
+  
+  <joint name="pole_to_box" type="fixed">
+    <parent link="pole_link"/>
+    <child link="box_link"/>
+    <origin xyz="0 0 0.55" rpy="0 0 0"/>
+  </joint>
+  
+  <joint name="box_to_camera_visual" type="fixed">
+    <parent link="box_link"/>
+    <child link="camera_visual"/>
+    <origin xyz="0.1 0 0" rpy="0 0 0"/>
+  </joint>
+  
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="base_to_pole">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+  
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <parameters>/home/rak/husky_footplcmt_ws/install/husky_footplcmt/share/husky_footplcmt/config/pole_camera_test.yaml</parameters>
+    </plugin>
+  </gazebo>
+  
+  <gazebo reference="box_link">
+    <sensor type="depth" name="depth_camera">
+      <pose>0.2 0 0 0 0 0</pose>
+      <update_rate>20.0</update_rate>
+      <camera>
+        <horizontal_fov>1.5184</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10</far>
+        </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>camera</namespace>
+        </ros>
+        <camera_name>depth_camera</camera_name>
+        <frame_name>camera_optical_frame</frame_name>
+        <hack_baseline>0.07</hack_baseline>
+        <min_depth>0.1</min_depth>
+        <max_depth>10.0</max_depth>
+      </plugin>
+    </sensor>
+  </gazebo>
+  
+  <!-- Gazebo materials -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  
+  <gazebo reference="pole_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  
+  <gazebo reference="box_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+  
+  <gazebo reference="camera_visual">
+    <material>Gazebo/Black</material>
+  </gazebo>
+</robot>
