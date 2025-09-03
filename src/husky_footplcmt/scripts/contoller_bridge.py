@@ -40,6 +40,8 @@ class JointTeleop(Node):
                     self.position -= self.step
                 elif key == 'd':
                     self.position += self.step
+                elif key == 'c':
+                    self.position = 0.0
                 elif key == 'q':
                     break
                 
